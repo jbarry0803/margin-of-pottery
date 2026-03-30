@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barry & Son Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink: #141b2b;
+  --ink-90: #1e2640;
+  --ink-70: #3a4563;
+  --ink-50: #6b7494;
+  --ink-30: #a0a7bd;
+  --ink-15: #d0d4e0;
+  --ink-05: #eef0f5;
+  --cream: #faf9f6;
+  --paper: #ffffff;
+  --teal: #1b7a72;
+  --teal-deep: #145f59;
+  --teal-light: #e6f5f3;
+  --gold: #b8923e;
+  --gold-light: #faf3e3;
+  --red: #b32d2d;
+  --red-light: #fef0f0;
+  --amber: #c67f1a;
+  --amber-light: #fef7ea;
+  --green: #1a7a3a;
+  --green-light: #eefaf2;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', 'SF Mono', monospace;
+  --shadow-sm: 0 1px 2px rgba(20,27,43,0.06);
+  --shadow-md: 0 4px 12px rgba(20,27,43,0.08);
+  --shadow-lg: 0 8px 32px rgba(20,27,43,0.12);
+  --radius: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); color: var(--ink); background: var(--cream); line-height: 1.65; font-size: 14.5px; }
+
+/* ─── HEADER ─── */
+.site-header {
+  background: var(--ink);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; height: 52px;
+}
+.logo { font-family: var(--serif); font-size: 17px; font-weight: 700; color: #fff; letter-spacing: 0.3px; }
+.logo em { color: var(--gold); font-style: normal; }
+.header-right { display: flex; align-items: center; gap: 16px; }
+.header-right span { font-size: 11px; color: var(--ink-30); font-weight: 500; letter-spacing: 0.4px; text-transform: uppercase; }
+
+/* ─── HERO ─── */
+.hero {
+  background: linear-gradient(160deg, var(--ink) 0%, #1a2744 40%, var(--teal-deep) 100%);
+  padding: 56px 28px 44px; color: #fff; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23ffffff' stroke-opacity='0.03'/%3E%3C/svg%3E");
+}
+.hero-wrap { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+.hero h1 { font-family: var(--serif); font-size: clamp(30px,4.5vw,44px); font-weight: 800; margin-bottom: 4px; line-height: 1.15; }
+.hero-tagline { font-family: var(--serif); font-size: 18px; color: var(--gold); font-style: italic; margin-bottom: 20px; opacity: 0.9; }
+.hero-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 28px; }
+.hero-pills span { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 4px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.75); letter-spacing: 0.3px; }
+.metrics-strip {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;
+}
+.metric-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 14px 16px; text-align: center;
+  transition: background 0.2s;
+}
+.metric-card:hover { background: rgba(255,255,255,0.1); }
+.mc-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.7px; color: rgba(255,255,255,0.45); margin-bottom: 3px; font-weight: 600; }
+.mc-value { font-family: var(--serif); font-size: 24px; font-weight: 700; }
+.mc-note { font-size: 10px; color: var(--gold); margin-top: 2px; font-weight: 500; }
+
+/* ─── ALERT STRIP ─── */
+.alert-strip {
+  background: var(--red-light); border-bottom: 2px solid var(--red);
+  padding: 14px 28px; text-align: center; font-size: 13px; font-weight: 600; color: var(--red);
+}
+.alert-strip a { color: var(--red); text-decoration: underline; }
+
+/* ─── MAIN TABS ─── */
+.main-wrap { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+.tab-bar {
+  display: flex; gap: 0; border-bottom: 2px solid var(--ink-15);
+  margin-top: 24px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.tab-bar button {
+  background: none; border: none; font-family: var(--sans);
+  font-size: 12.5px; font-weight: 600; color: var(--ink-50);
+  padding: 12px 18px; cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: all 0.15s; letter-spacing: 0.2px;
+}
+.tab-bar button:hover { color: var(--ink); }
+.tab-bar button.active { color: var(--teal); border-bottom-color: var(--teal); }
+.tab-panel { display: none; padding: 28px 0 48px; }
+.tab-panel.active { display: block; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── CONTENT ELEMENTS ─── */
+h2 { font-family: var(--serif); font-size: 26px; font-weight: 700; color: var(--ink); margin-bottom: 18px; line-height: 1.2; }
+h3 { font-family: var(--sans); font-size: 17px; font-weight: 700; color: var(--ink); margin: 28px 0 10px; }
+h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--teal); margin: 20px 0 8px; }
+p { margin-bottom: 12px; }
+strong { font-weight: 600; }
+
+.card {
+  background: var(--paper); border: 1px solid var(--ink-15);
+  border-radius: var(--radius); padding: 24px; margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.card-accent { border-left: 3px solid var(--teal); }
+.card-warn { border-left: 3px solid var(--red); background: var(--red-light); }
+.card-gold { border-left: 3px solid var(--gold); background: var(--gold-light); }
+
+/* ─── TABLES ─── */
+.table-wrap { overflow-x: auto; margin: 12px 0; border-radius: var(--radius); border: 1px solid var(--ink-15); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  background: var(--ink); color: #fff; padding: 10px 14px;
+  text-align: left; font-weight: 600; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.4px;
+  position: sticky; top: 0;
+}
+td { padding: 9px 14px; border-bottom: 1px solid var(--ink-05); }
+tbody tr:nth-child(even) { background: var(--ink-05); }
+tbody tr:hover { background: #e8ecf3; }
+.r { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 12.5px; }
+th.r { text-align: right; }
+
+/* ─── BADGES ─── */
+.badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; vertical-align: middle; }
+.b-ok { background: var(--green-light); color: var(--green); }
+.b-adj { background: var(--amber-light); color: var(--amber); }
+.b-unk { background: #eef0ff; color: #4338ca; }
+.b-err { background: var(--red-light); color: var(--red); }
+
+/* ─── TOOLTIPS ─── */
+.tip { position: relative; cursor: help; border-bottom: 1px dotted var(--teal); }
+.tip .tt {
+  display: none; position: absolute; bottom: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%); background: var(--ink); color: #fff;
+  padding: 10px 14px; border-radius: 6px; font-size: 11.5px; line-height: 1.5;
+  width: max-content; max-width: 320px; z-index: 50;
+  box-shadow: var(--shadow-lg); pointer-events: none;
+}
+.tip .tt::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:5px solid transparent; border-top-color:var(--ink); }
+.tip:hover .tt { display: block; }
+.tt-lbl { color: var(--gold); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ─── CHECKLIST ─── */
+.checklist { list-style: none; }
+.checklist li {
+  padding: 12px 16px; border-bottom: 1px solid var(--ink-05);
+  display: flex; align-items: flex-start; gap: 12px; font-size: 14px;
+}
+.checklist li:last-child { border-bottom: none; }
+.check-icon {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; margin-top: 1px;
+}
+.ci-pass { background: var(--green-light); color: var(--green); }
+.ci-warn { background: var(--amber-light); color: var(--amber); }
+.ci-fail { background: var(--red-light); color: var(--red); }
+.ci-na { background: var(--ink-05); color: var(--ink-50); }
+
+/* ─── TRAFFIC LIGHTS ─── */
+.tl { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.d-g { background: var(--green); }
+.d-a { background: var(--amber); }
+.d-r { background: var(--red); }
+
+/* ─── GRID ─── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 768px) { .g2, .g3 { grid-template-columns: 1fr; } }
+
+/* ─── VERDICT ─── */
+.verdict-box {
+  background: linear-gradient(135deg, var(--ink) 0%, var(--ink-90) 100%);
+  border-radius: var(--radius); padding: 32px; color: #fff; margin: 24px 0;
+}
+.verdict-box h3 { color: var(--gold); margin: 0 0 12px; font-size: 20px; }
+.verdict-box p { color: rgba(255,255,255,0.8); margin-bottom: 10px; }
+
+/* ─── QA ─── */
+.qa-item { margin-bottom: 24px; }
+.qa-q { font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.qa-a { padding-left: 16px; border-left: 3px solid var(--teal); color: var(--ink-70); }
+.qa-a strong { color: var(--ink); }
+
+/* ─── EXPANDER ─── */
+details { margin: 10px 0; }
+details summary {
+  padding: 10px 14px; cursor: pointer; font-weight: 600; font-size: 13.5px;
+  color: var(--teal-deep); background: var(--teal-light); border-radius: 6px;
+  list-style: none; display: flex; align-items: center; gap: 6px;
+}
+details summary::before { content: '▸'; transition: transform 0.2s; }
+details[open] summary::before { transform: rotate(90deg); }
+details[open] summary { border-radius: 6px 6px 0 0; }
+.det-body { padding: 14px 16px; border: 1px solid var(--ink-15); border-top: none; border-radius: 0 0 6px 6px; font-size: 13.5px; background: var(--paper); }
+
+footer {
+  background: var(--ink); color: var(--ink-50); padding: 24px 28px;
+  text-align: center; font-size: 11px; margin-top: 48px;
+}
+</style>
+<style>
+/* ===== PASSWORD GATE ===== */
+#gate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #17202e;
+  position: relative;
+  overflow: hidden;
+}
+#gate::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 70%;
+  height: 160%;
+  background: radial-gradient(ellipse, rgba(22,117,111,.12), transparent 65%);
+  pointer-events: none;
+}
+.gate-box {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 440px;
+  padding: 48px 40px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+}
+.gate-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+.gate-title {
+  font-family: var(--serif); font-size: 26px; font-weight: 700;
+  color: #fff; margin-bottom: 4px;
+}
+.gate-title em { color: var(--gold); font-style: normal; }
+.gate-sub {
+  font-family: var(--serif); font-size: 13px; color: #a5afc0;
+  font-style: italic; margin-bottom: 4px; line-height: 1.5;
+}
+.gate-est {
+  font-size: 11px; color: rgba(255,255,255,.2);
+  font-style: italic; margin-bottom: 28px;
+}
+.gate-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px;
+  color: #7a8799; font-weight: 600; margin-bottom: 8px; text-align: left;
+}
+.gate-input {
+  width: 100%; padding: 14px 18px;
+  font-family: var(--mono); font-size: 16px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px; color: #fff; outline: none;
+  transition: border-color 0.2s; text-align: center; letter-spacing: 1px;
+}
+.gate-input:focus { border-color: var(--gold); }
+.gate-input::placeholder {
+  color: #7a8799; font-family: var(--sans);
+  font-size: 13px; letter-spacing: 0;
+}
+.gate-btn {
+  margin-top: 16px; width: 100%; padding: 13px;
+  font-family: var(--sans); font-size: 14px; font-weight: 600;
+  background: var(--gold); color: #17202e; border: none;
+  border-radius: 8px; cursor: pointer; transition: all 0.2s;
+}
+.gate-btn:hover { background: #c99d3a; transform: translateY(-1px); }
+.gate-error { color: #ab2c2c; font-size: 13px; font-weight: 600; margin-top: 12px; min-height: 20px; }
+.gate-hint { margin-top: 20px; font-size: 11px; color: #7a8799; }
+.gate-footer {
+  margin-top: 32px; font-size: 10px;
+  color: rgba(255,255,255,.18); letter-spacing: 0.3px;
+}
+.shake { animation: shake 0.4s ease; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(4px); }
+}
+#site { display: none; }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-box">
+    <span class="gate-icon">&#129656;</span>
+    <div class="gate-title">Barry <em>&amp;</em> Son</div>
+    <div class="gate-sub">Specialists in Unloved British Ceramics,<br>Defaulted Mississippi Bonds &amp; Heritage Railways</div>
+    <div class="gate-est">Est. whenever Joe finally found one worth showing his dad</div>
+    <div class="gate-label">Password required</div>
+    <input type="password" class="gate-input" id="pw" placeholder="Go on then..." autofocus>
+    <button class="gate-btn" id="go">Let Me In</button>
+    <div class="gate-error" id="err"></div>
+    <div class="gate-hint">Hint: Your favourite discount (two words, no space)</div>
+    <div class="gate-footer">Barry &amp; Son Research &middot; No Analysts Were Harmed &middot; AIM Rule 26 Compliant (Probably)</div>
+  </div>
+</div>
+
+<!-- MAIN SITE -->
+<div id="site">
+<div class="site-header">
+  <div class="header-inner">
+    <div class="logo">PMP<em>.L</em> — Forensic Analysis</div>
+    <div class="header-right">
+      <span>For: David Barry</span>
+      <span>30 March 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-wrap">
+    <h1>Portmeirion Group PLC</h1>
+    <div class="hero-tagline">Independent equity &amp; credit analysis</div>
+    <div class="hero-pills">
+      <span>LSE: PMP</span><span>AIM Market</span><span>Heritage Ceramics &amp; Fragrance</span><span>Stoke-on-Trent</span><span>6 Brands · 659 Employees</span>
+    </div>
+    <div class="metrics-strip">
+      <div class="metric-card"><div class="mc-label">Price</div><div class="mc-value">~98p</div><div class="mc-note">97–103p range, Feb–Mar 2026</div></div>
+      <div class="metric-card"><div class="mc-label">Mkt Cap</div><div class="mc-value">£13.5m</div><div class="mc-note">~13.8m shares</div></div>
+      <div class="metric-card"><div class="mc-label">FY24 Equity</div><div class="mc-value">£55.6m</div><div class="mc-note">Audited — 5yr report card</div></div>
+      <div class="metric-card"><div class="mc-label">P / Book</div><div class="mc-value">0.24x</div><div class="mc-note">76% discount to equity</div></div>
+      <div class="metric-card"><div class="mc-label">Net Debt</div><div class="mc-value">£17.5m</div><div class="mc-note">FY25E — up from £12.1m</div></div>
+      <div class="metric-card"><div class="mc-label">FY25 PBT</div><div class="mc-value" style="color:#ff6b6b">-£3.5m</div><div class="mc-note">Loss year — restructuring</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="alert-strip">
+  FY2025 pre-close update (3 Feb 2026): headline loss of ~£3.5m · Net debt rising to ~£17.5m · Covenants renegotiated with Barclays · Company expects return to growth in FY2026
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-wrap">
+  <div class="tab-bar" id="tabBar">
+    <button class="active" data-tab="overview">Overview</button>
+    <button data-tab="barry">Barry Checklist</button>
+    <button data-tab="financials">Financials</button>
+    <button data-tab="credit">Credit Risk</button>
+    <button data-tab="nav">NAV Analysis</button>
+    <button data-tab="sotp">SOTP</button>
+    <button data-tab="industry">Industry</button>
+    <button data-tab="questions">Key Questions</button>
+    
+    <button data-tab="sources">Sources</button>
+  </div>
+
+  <!-- ═══ OVERVIEW TAB ═══ -->
+  <div class="tab-panel active" id="overview">
+    <h2>Executive Summary</h2>
+
+    <div class="card card-warn">
+      <h3 style="color:var(--red);margin-top:0">Critical: FY2025 Trading Update (3 February 2026)</h3>
+      <p>The most recent company announcement disclosed a <strong>headline loss of ~£3.5m</strong> for FY2025, with net debt rising to <strong>~£17.5m</strong> (from £12.1m at FY24). Covenants were renegotiated with sole lender Barclays. This materially affects the risk profile and must be front-and-centre in any investment assessment. Management has expressed confidence in a return to growth in FY2026.</p>
+    </div>
+
+    <div class="g2">
+      <div class="card card-accent">
+        <h4>Strengths of the thesis</h4>
+        <p>FY2024 revenue (£91.2m), PBT (£1.1m), EPS (8.04p), and inventory (£38.2m) are all verified against the official five-year report card. The Fiskars/WWRD precedent ($437m, May 2015) is confirmed from primary sources. South Korean destocking and H1 2025 recovery are supported by RNS filings. The core observation — that PMP trades at a deep discount to tangible assets — is correct and significant.</p>
+      </div>
+      <div class="card card-accent">
+        <h4>Key concerns &amp; corrections</h4>
+        <p>Total equity is understated by ~£5m (£50.6m vs audited £55.6m). Book value per share should be ~391p, not 368p. Insider ownership of "22.6%" conflates directors (1.24%) with unrelated block holders. Churchill China's market cap is ~£34m, not ~£80m. Most critically, FY2025 shows a £3.5m loss and rising debt — not disclosed.</p>
+      </div>
+    </div>
+
+    <h3>Business Overview</h3>
+    <div class="card">
+      <p>Portmeirion Group is a UK-listed AIM homeware company headquartered in Stoke-on-Trent, incorporated in 1912. It designs, manufactures, and distributes premium ceramic tableware, home fragrance, cookware and giftware globally through <strong>six heritage brands</strong> and two UK manufacturing facilities.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Region</th><th class="r">Revenue</th><th class="r">Mix</th><th>Commentary</th></tr></thead>
+          <tbody>
+            <tr><td>North America</td><td class="r">£39.5m</td><td class="r">43%</td><td>US profits +18% YoY in FY24. FY25 tariff-hit: -7%.</td></tr>
+            <tr><td>United Kingdom</td><td class="r">£32.4m</td><td class="r">36%</td><td>Wax Lyrical +25%. Ceramic UK sales down 9%.</td></tr>
+            <tr><td>South Korea</td><td class="r">£11.8m</td><td class="r">13%</td><td>Down 45% FY24 (destocking). Recovering H1 2025.</td></tr>
+            <tr><td>International</td><td class="r">£7.5m</td><td class="r">8%</td><td>57 markets. +40% vs 2019 levels. +10% in H1 2025.</td></tr>
+            <tr style="font-weight:700"><td>Total</td><td class="r">£91.2m</td><td class="r">100%</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h4>Brand Portfolio</h4>
+      <div class="g3">
+        <div><strong>Spode</strong> (1770) — Flagship growth brand. Blue Italian, Christmas Tree. Sales +45% vs 2019.</div>
+        <div><strong>Portmeirion</strong> (~1960) — Botanic Garden. Dominates South Korea.</div>
+        <div><strong>Royal Worcester</strong> (1751) — Oldest English porcelain. Acquired from administration 2009.</div>
+        <div><strong>Wax Lyrical</strong> (1980) — Home fragrance. Lake District. Returned to profitability FY24.</div>
+        <div><strong>Nambé</strong> (1951) — US premium homewares. Santa Fe. Acquired 2019.</div>
+        <div><strong>Pimpernel</strong> (1933) — Heritage placemats &amp; coasters.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ BARRY CHECKLIST TAB ═══ -->
+  <div class="tab-panel" id="barry">
+    <h2>David Barry Value Investing Assessment</h2>
+    <p style="color:var(--ink-50);margin-bottom:20px;font-style:italic">Evaluated against David's established criteria: NAV discount targeting, asset quality, management alignment, catalyst identification, and patience horizon. Grounded in his approach of finding companies trading at 30–70% discounts to NAV with tangible asset backing.</p>
+
+    <div class="card">
+      <h3 style="margin-top:0">Screening Criteria</h3>
+      <ul class="checklist">
+        <li>
+          <div class="check-icon ci-pass">✓</div>
+          <div><strong>Deep discount to NAV?</strong><br>Yes. Trades at 0.24x FY24 book value — a 76% discount. Even on estimated FY25 equity (~£52m), the discount is ~74%. This is firmly in David's sweet spot of 30–70%+ NAV discounts. Among the deepest discounts on AIM.</div>
+        </li>
+        <li>
+          <div class="check-icon ci-pass">✓</div>
+          <div><strong>Tangible asset backing?</strong><br>£38.2m of physical inventory (2.8x market cap), two manufacturing facilities, six heritage brands carried at near-zero on the balance sheet. The inventory is ceramic tableware and home fragrance — not perishable, has long shelf life. Heritage patterns have 30–90 year demand histories.</div>
+        </li>
+        <li>
+          <div class="check-icon ci-warn">!</div>
+          <div><strong>Is the asset quality real?</strong><br>Mixed. Inventory is tangible but slow-moving — management targeted £32m for two years but inventory actually increased to £38.2m. Ceramics are not commodity goods; forced liquidation would realise 30–50% of book at best. Brand IP is genuinely under-carried but commercially unproven as a standalone monetisable asset. Property assets are specialised manufacturing (limited alternative use).</div>
+        </li>
+        <li>
+          <div class="check-icon ci-fail">✗</div>
+          <div><strong>Is debt manageable / declining?</strong><br>No — debt is rising. Net debt increased from £12.1m (FY24) to £17.5m (FY25). The company needed to renegotiate covenants with Barclays. Free cash flow was negative in FY24 (-£3.7m). This is the biggest red flag. David's historical picks (Burtonwood, Slingsby, UA Group) were typically ungeared or lightly geared. This company has meaningful debt pressure.</div>
+        </li>
+        <li>
+          <div class="check-icon ci-warn">!</div>
+          <div><strong>Management alignment / skin in the game?</strong><br>Weak. Directors hold only 1.24% of shares (£172k at current prices). Directors hold only 1.24% of equity. New chairman appointed Feb 2025 — early days. Strategic transformation plan is ambitious but unproven. AB Traction (15.9%) and Peter Gyllenhammar (12.3%) are significant value-oriented holders — a positive signal.</div>
+        </li>
+        <li>
+          <div class="check-icon ci-pass">✓</div>
+          <div><strong>Micro-cap / neglected / illiquid?</strong><br>Yes — textbook neglect. £13.5m market cap, ~16k average daily volume, zero analyst coverage, AIM-listed. No FTSE index inclusion means no passive buying. 56% not in public hands. This is exactly the kind of structural inefficiency David has historically exploited.</div>
+        </li>
+        <li>
+          <div class="check-icon ci-pass">✓</div>
+          <div><strong>Identifiable catalyst?</strong><br>Several: South Korean recovery (confirmed in H1 2025), inventory conversion to cash (£6m excess identified), cost restructuring savings flowing through, potential activist/take-private interest (Fiskars paid $437m for comparable brands), new management with transformation plan. However, catalysts require patience — 2–3 year horizon minimum.</div>
+        </li>
+        <li>
+          <div class="check-icon ci-warn">!</div>
+          <div><strong>Would it survive a severe downturn?</strong><br>Probably, but uncomfortably. £30m RCF with ~£12.5m headroom. A further 10% revenue decline would push net debt above £23m and likely breach covenants. The company is not in crisis but has limited margin for error. An equity raise cannot be ruled out.</div>
+        </li>
+        <li>
+          <div class="check-icon ci-pass">✓</div>
+          <div><strong>Precedent transaction supporting value?</strong><br>Strong. Fiskars acquired WWRD (Waterford, Wedgwood, Royal Doulton, Royal Albert, Rogaška) for $437m in May 2015. Portmeirion's brands are smaller in scale but share the heritage ceramics DNA. Even at a 95% discount to the WWRD implied brand value per heritage year, Portmeirion's brand portfolio would be worth more than the entire current market cap.</div>
+        </li>
+        <li>
+          <div class="check-icon ci-pass">✓</div>
+          <div><strong>3-year doubling potential?</strong><br>Conservative SOTP of 236p represents ~140% upside from ~98p. If management executes on inventory reduction, debt paydown, and revenue recovery, a re-rating toward 0.5x book (vs 0.24x now) would imply ~200p. However, this requires things to go right — and FY2025 showed things can also go wrong.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="verdict-box">
+      <h3>Assessment: Interesting but Not Clean</h3>
+      <p>Portmeirion scores well on David's core screening criteria — deep NAV discount, tangible asset backing, micro-cap neglect, identifiable catalysts, and precedent transaction support. It is the kind of situation that would historically have caught his eye.</p>
+      <p>However, the <strong>rising debt, negative free cash flow, covenant renegotiation, and ongoing losses</strong> are material negatives that distinguish this from his cleaner historical picks (which tended to be ungeared or improving). The management skin-in-the-game is also much weaker than ideal.</p>
+      <p style="color:var(--gold);font-weight:700;margin-top:12px">Verdict: Worth monitoring, but only for a small position sized for the possibility of further deterioration. Wait for FY2025 full results (expected Mar 2026) and assess whether the debt trajectory is stabilising before committing capital.</p>
+    </div>
+  </div>
+
+  <!-- ═══ CORRECTIONS TAB ═══ -->
+  <div class="tab-panel" id="financials">
+    <h2>Historical Financial Performance</h2>
+    <div class="card">
+      <h4>Five-Year Summary — Verified from Official Report Card</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Metric</th><th class="r">FY20</th><th class="r">FY21</th><th class="r">FY22</th><th class="r">FY23</th><th class="r">FY24</th><th class="r">FY25E</th></tr></thead>
+          <tbody>
+            <tr><td><span class="tip">Revenue (£m)<span class="tt"><span class="tt-lbl">Source</span>PMP Five-Year Report Card (Primary)</span></span></td><td class="r">87.9</td><td class="r">106.0</td><td class="r">110.8</td><td class="r">102.7</td><td class="r">91.2</td><td class="r">~91</td></tr>
+            <tr><td>Headline PBT (£m)</td><td class="r">1.4</td><td class="r">7.2</td><td class="r">8.0</td><td class="r">3.0</td><td class="r">1.1</td><td class="r" style="color:var(--red);font-weight:700">-3.5</td></tr>
+            <tr><td>Headline EPS (p)</td><td class="r">4.96</td><td class="r">38.85</td><td class="r">46.59</td><td class="r">21.36</td><td class="r">8.04</td><td class="r" style="color:var(--red)">neg.</td></tr>
+            <tr><td>Cash from Ops (£m)</td><td class="r">8.7</td><td class="r">8.7</td><td class="r">1.6</td><td class="r">10.8</td><td class="r">2.1</td><td class="r">—</td></tr>
+            <tr><td>Free Cash Flow (£m)</td><td class="r">2.4</td><td class="r">0.0</td><td class="r">-7.9</td><td class="r">4.4</td><td class="r">-3.7</td><td class="r" style="color:var(--red)">neg.</td></tr>
+            <tr><td>Inventory (£m)</td><td class="r">27.3</td><td class="r">29.2</td><td class="r">41.1</td><td class="r">36.0</td><td class="r">38.2</td><td class="r">—</td></tr>
+            <tr><td>Net Debt (£m)</td><td class="r">(0.7)</td><td class="r">(0.7)</td><td class="r">10.1</td><td class="r">7.9</td><td class="r">12.1</td><td class="r" style="color:var(--red);font-weight:700">17.5</td></tr>
+            <tr><td>Shareholders' Funds (£m)</td><td class="r">55.7</td><td class="r">61.9</td><td class="r">66.7</td><td class="r">55.0</td><td class="r">55.6</td><td class="r">~52</td></tr>
+            <tr><td>Employees</td><td class="r">818</td><td class="r">896</td><td class="r">857</td><td class="r">783</td><td class="r">659</td><td class="r">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12px;color:var(--ink-50)">Source: PMP Five-Year Report Card (portmeiriongroup.com). FY25E from 3 Feb 2026 trading update. All FY20–24 figures verified.</p>
+    </div>
+
+    <div class="card card-warn">
+      <h3 style="color:var(--red);margin-top:0">FY2025 Trading Update (3 February 2026)</h3>
+      <p>Revenue ~£91m (+1% CC; +8% ex-USA). <strong>Headline loss ~£3.5m.</strong> Net debt ~£17.5m. US sales -7% (tariffs + channel cleanup). South Korea rebounding. Covenants renegotiated with Barclays. Management confident in FY2026 return to growth.</p>
+    </div>
+  </div>
+
+  <!-- ═══ CREDIT RISK TAB ═══ -->
+  <div class="tab-panel" id="credit">
+    <h2>Credit Risk &amp; Going Concern</h2>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Metric</th><th class="r">FY24</th><th class="r">FY25E</th><th>Signal</th></tr></thead>
+          <tbody>
+            <tr><td>Net Debt / EBITDA</td><td class="r">~1.8x</td><td class="r">~5–6x+</td><td><span class="tl"><span class="dot d-r"></span>Deteriorating sharply</span></td></tr>
+            <tr><td>Interest Cover</td><td class="r">~3.5x</td><td class="r">~1–2x</td><td><span class="tl"><span class="dot d-r"></span>Under pressure</span></td></tr>
+            <tr><td>Net Debt</td><td class="r">£12.1m</td><td class="r">£17.5m</td><td><span class="tl"><span class="dot d-a"></span>Rising 45%</span></td></tr>
+            <tr><td>RCF Headroom</td><td class="r">~£18m</td><td class="r">~£12.5m</td><td><span class="tl"><span class="dot d-a"></span>Tightening</span></td></tr>
+            <tr><td>Free Cash Flow</td><td class="r">-£3.7m</td><td class="r">Negative</td><td><span class="tl"><span class="dot d-r"></span>Cash consuming</span></td></tr>
+            <tr><td>Current Ratio</td><td class="r">~1.78x</td><td class="r">—</td><td><span class="tl"><span class="dot d-g"></span>Adequate</span></td></tr>
+            <tr><td>Gearing</td><td class="r">21.8%</td><td class="r">~34%</td><td><span class="tl"><span class="dot d-a"></span>Rising</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Is insolvency a risk?</h3>
+      <p><strong>Not imminent, but the margin of safety has narrowed considerably.</strong> The £30m Barclays RCF provides ~£12.5m headroom above FY25 net debt. The covenant renegotiation shows the bank is engaged and supportive — for now. But a second consecutive year of losses would bring the company into genuinely stressed territory. Probability of insolvency in next 12 months: ~5–10%. In next 24 months if losses continue: ~15–25%.</p>
+
+      <h3>Downside stress test</h3>
+      <p>If FY2026 revenues decline 10% (~£82m) with no cost offset: estimated loss £6–8m, net debt £23–25m, gearing 45–50%, RCF ~83% drawn. <strong>Covenant breach becomes probable.</strong> Forced inventory liquidation or equity raise would follow.</p>
+    </div>
+  </div>
+
+  <!-- ═══ NAV TAB ═══ -->
+  <div class="tab-panel" id="nav">
+    <h2>NAV &amp; Asset Quality</h2>
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Metric</th><th class="r">FY24 (Audited)</th><th class="r">FY25 (Est.)</th></tr></thead>
+          <tbody>
+            <tr><td>Total Equity</td><td class="r">£50.6m</td><td class="r">£55.6m</td><td class="r">~£52m</td></tr>
+            <tr><td>BV per Share</td><td class="r">368p</td><td class="r">~391p</td><td class="r">~366p</td></tr>
+            <tr><td>P/Book</td><td class="r">0.24x</td><td class="r">~0.27x</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Is the discount real or a trap?</h3>
+      <p><strong>The discount is real, but partly justified.</strong> Contributing factors: rising leverage, ongoing losses, illiquid AIM listing, inventory that may not realise book value, and zero analyst coverage. Even with a 40% inventory haircut and zero brand value, corrected NAV exceeds the share price under conservative assumptions. But the market is pricing in meaningful probability of further value destruction.</p>
+
+      <h4>Inventory — The Core Question</h4>
+      <p>£38.2m of inventory is 2.8x market cap. However: management targeted £32m for 2+ years and it actually <em>increased</em>. Heritage ceramics have long shelf life and proven demand patterns, but forced liquidation would realise 30–50% of book. Orderly sell-through over 2–3 years: 60–80%. <strong>This is real downside anchoring, but not a quick-release safety valve.</strong></p>
+
+      <h4>Brand IP — Genuinely Under-Carried</h4>
+      <p>Spode and Royal Worcester acquired from administration in 2009 for nominal consideration — carried at near-zero. The Fiskars/WWRD precedent ($437m for five heritage brands) confirms heritage ceramics brands have tangible M&A value. But Portmeirion's brands are materially smaller in scale.</p>
+    </div>
+  </div>
+
+  <!-- ═══ SOTP TAB ═══ -->
+  <div class="tab-panel" id="sotp">
+    <h2>Corrected Sum-of-the-Parts</h2>
+    <div class="card">
+      <h4>Using FY2025 net debt (£17.5m) with conservative haircuts</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Component</th><th class="r">Liquidation</th><th class="r">Conservative</th><th class="r">Fair Value</th><th>Method</th></tr></thead>
+          <tbody>
+            <tr><td>Brand IP</td><td class="r">£5m</td><td class="r">£15m</td><td class="r">£30m</td><td>Near-zero in distress; fraction of WWRD precedent at fair</td></tr>
+            <tr><td>Inventory (haircut)</td><td class="r">£15m</td><td class="r">£24m</td><td class="r">£30m</td><td>40% / 63% / 78% of £38.2m book</td></tr>
+            <tr><td>Manufacturing</td><td class="r">£4m</td><td class="r">£6m</td><td class="r">£9m</td><td>Specialised facilities, limited alt use</td></tr>
+            <tr><td>Distribution</td><td class="r">£1m</td><td class="r">£3m</td><td class="r">£5m</td><td>57 markets via distributors</td></tr>
+            <tr><td>Pension / eComm</td><td class="r">£0.5m</td><td class="r">£2.5m</td><td class="r">£4m</td><td>Pension largely inaccessible</td></tr>
+            <tr style="font-weight:700;background:var(--gold-light)"><td>Gross Assets</td><td class="r">£25.5m</td><td class="r">£50.5m</td><td class="r">£78m</td><td></td></tr>
+            <tr style="color:var(--red)"><td>Less: Net Debt (FY25)</td><td class="r">(£17.5m)</td><td class="r">(£17.5m)</td><td class="r">(£17.5m)</td><td></td></tr>
+            <tr style="font-weight:700;font-size:15px"><td>Equity Value</td><td class="r">£8.0m</td><td class="r">£33.0m</td><td class="r">£60.5m</td><td></td></tr>
+            <tr style="font-weight:700;font-size:15px"><td>Per Share</td><td class="r">57p</td><td class="r">236p</td><td class="r">432p</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card card-warn" style="margin-top:16px">
+        <p><strong>Key point:</strong> The liquidation case (57p) falls <em>below</em> the current share price. There is no hard asset floor in a forced-sale scenario. The conservative case (236p, +141% upside) requires inventory realising at 63% of book and brands carrying £15m of standalone value — neither guaranteed. This is speculative deep value, not a risk-free asset play.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ INDUSTRY TAB ═══ -->
+  <div class="tab-panel" id="industry">
+    <h2>Industry &amp; Peers</h2>
+    <div class="card">
+      <h4>Corrected Peer Table (March 2026)</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Company</th><th class="r">Mkt Cap</th><th class="r">P/B</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Portmeirion (PMP)</td><td class="r">~£13.5m</td><td class="r">~0.24x</td><td>AIM. Premium consumer ceramics &amp; fragrance.</td></tr>
+            <tr><td>Villeroy &amp; Boch (VIB3)</td><td class="r">~€468m</td><td class="r">~0.6–0.7x</td><td>Much larger. Bathroom + tableware. German.</td></tr>
+            <tr><td>Fiskars (FSKRS)</td><td class="r">~€2.5bn</td><td class="r">~1.5–2x</td><td>Diversified. Owns WWRD brands.</td></tr>
+            <tr><td>Churchill China (CHH)</td><td class="r">~£34m</td><td class="r">~0.5–0.7x</td><td>Closest peer. Hospitality ceramics. Market cap collapsed from ~£80m.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Sober Industry View</h3>
+      <p><strong>Premium tableware is a challenging, mature sector.</strong> The post-COVID home spending boom has fully unwound. Consumer discretionary remains under pressure. US tariffs on imported ceramics are a structural headwind.</p>
+      <p><strong>Heritage brands retain value but face secular headwinds.</strong> Long-running patterns have genuine collector followings, but absolute demand is shrinking as younger consumers shift preferences.</p>
+      <p><strong>Churchill China's collapse is cautionary.</strong> CHH — a closer peer than Fiskars — has halved, suggesting the challenges are sector-wide, not idiosyncratic to PMP.</p>
+      <p><strong>Onshoring is a potential edge.</strong> "Made in Stoke-on-Trent" could become a real moat if US tariffs persist. But requires time and investment to scale.</p>
+      <p><strong>Realistic mid-cycle:</strong> £95–100m revenue, £3–5m PBT. A return to FY22 levels (£110m / £8m) unlikely within 3 years.</p>
+    </div>
+  </div>
+
+  <!-- ═══ KEY QUESTIONS TAB ═══ -->
+  <div class="tab-panel" id="questions">
+    <h2>Key Questions Answered</h2>
+
+    <div class="qa-item">
+      <div class="qa-q">1. Is Portmeirion at risk of going bust?</div>
+      <div class="qa-a"><p><strong>Not imminently.</strong> £30m facility with ~£12.5m headroom. Tangible asset backing. Bank is engaged. But another year of losses would create genuine stress. Limited margin for error. Probability of insolvency: ~5–10% in 12 months, ~15–25% if losses persist for 24 months.</p></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">2. How safe is the balance sheet in a downside case?</div>
+      <div class="qa-a"><p><strong>Less safe than it might appear.</strong> A 10% revenue decline could push net debt above £23m and breach covenants. The inventory buffer is real but cannot be quickly monetised. The balance sheet is adequate for mild recovery but fragile in continued downturn.</p></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">3. Is the discount to NAV genuine?</div>
+      <div class="qa-a"><p><strong>Genuine but partly justified.</strong> Rising leverage, ongoing losses, illiquid AIM listing, and sticky inventory explain some of the discount. But even with aggressive haircuts, the conservative SOTP (236p) is 140% above market. The market is pricing in significant further value destruction.</p></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">4. How credible is the inventory as downside protection?</div>
+      <div class="qa-a"><p><strong>Moderately credible but slow to monetise.</strong> Heritage patterns have 30–90 year demand histories. Not perishable. But management has been trying to reduce for 2+ years and failed. Forced liquidation: 30–50% of book. Orderly sell-through: 60–80%. Real anchoring, but not a safety net you can deploy quickly.</p></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">5. What do the accounts imply about the next 2–3 years?</div>
+      <div class="qa-a"><p><strong>Realistic FY2026:</strong> Revenue ~£93–97m, PBT £0–2m, net debt stabilising at £15–17m. Full recovery to mid-cycle profitability (£4–6m PBT) is a 2027–28 event at earliest. Requires South Korea recovery, US tariff resolution, and restructuring savings to flow through.</p></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">6. Premium tableware industry outlook?</div>
+      <div class="qa-a"><p><strong>Stable-to-declining volumes, pockets of growth.</strong> Mature in developed economies. Heritage brands retain pricing power but face secular headwinds. Home fragrance (Wax Lyrical) is the genuine growth pocket. Onshoring provides differentiation opportunity. Not a growth industry.</p></div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">7. Deep value opportunity or value trap?</div>
+      <div class="qa-a"><p><strong>Could be either — FY2025 tilted toward trap territory.</strong> Strong asset backing and identifiable catalysts argue for deep value. But rising debt, negative FCF, covenant stress, and consecutive years of deterioration argue for trap. <strong>Speculative deep value with genuine asset backing, but not a low-risk proposition.</strong> 1–3% position maximum, 2–3 year horizon.</p></div>
+    </div>
+  </div>
+
+  <!-- ═══ VERIFICATION LOG TAB ═══ -->
+  <div class="tab-panel" id="sources">
+    <h2>Source Register</h2>
+
+    <h4>Primary Sources — Company Filings</h4>
+    <div class="table-wrap">
+      <table style="font-size:12px">
+        <thead><tr><th>ID</th><th>Title</th><th>Date</th><th>Type</th><th>Used For</th></tr></thead>
+        <tbody>
+          <tr><td>P1</td><td>Annual Report &amp; Accounts 2024</td><td>Apr 2025</td><td>Annual Report</td><td>Revenue, PBT, EPS, inventory, equity, segments</td></tr>
+          <tr><td>P2</td><td>Five-Year Report Card</td><td>2025</td><td>Company IR</td><td>All five-year financial metrics. Primary data source.</td></tr>
+          <tr><td>P3</td><td>Significant Shareholders &amp; Shares</td><td>27 Feb 2026</td><td>Company IR</td><td>Share count, treasury, voting rights, director holdings</td></tr>
+          <tr><td>P4</td><td>H1 2025 Trading Update</td><td>21 Jul 2025</td><td>RNS</td><td>H1 revenue, Korea recovery, tariffs</td></tr>
+          <tr><td>P5</td><td>FY2025 Pre-Close Update</td><td>3 Feb 2026</td><td>RNS</td><td>FY25 loss, net debt, covenants</td></tr>
+          <tr><td>P6</td><td>Preliminary Results FY2024</td><td>31 Mar 2025</td><td>RNS</td><td>FY24 results, overheads, Barclays RCF</td></tr>
+          <tr><td>P7</td><td>Interim Results 2024</td><td>19 Sep 2024</td><td>Interim</td><td>RCF signing, covenant headroom, stress testing</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Primary Sources — Transactions</h4>
+    <div class="table-wrap">
+      <table style="font-size:12px">
+        <thead><tr><th>ID</th><th>Title</th><th>Date</th><th>Type</th><th>Used For</th></tr></thead>
+        <tbody>
+          <tr><td>T1</td><td>KPS Capital Partners — WWRD Sale to Fiskars</td><td>11 May 2015</td><td>Press Release</td><td>$437m acquisition price confirmation</td></tr>
+          <tr><td>T2</td><td>Fiskars Corp Stock Exchange Release</td><td>11 May 2015</td><td>Filing</td><td>Transaction terms, brand portfolio</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Secondary Sources — Market Data</h4>
+    <div class="table-wrap">
+      <table style="font-size:12px">
+        <thead><tr><th>ID</th><th>Source</th><th>Date</th><th>Used For</th></tr></thead>
+        <tbody>
+          <tr><td>S1</td><td>Hargreaves Lansdown (HL.co.uk)</td><td>23 Feb 2026</td><td>Share price (97p/100p)</td></tr>
+          <tr><td>S2</td><td>StockAnalysis.com</td><td>Mar 2026</td><td>Shares, EV/EBITDA, debt, ratios</td></tr>
+          <tr><td>S3</td><td>ADVFN.com</td><td>Mar 2026</td><td>Market cap, RNS timeline</td></tr>
+          <tr><td>S4</td><td>Stockopedia / HL</td><td>Mar 2026</td><td>Churchill China peer data</td></tr>
+          <tr><td>S5</td><td>TipRanks / ADVFN / Proactive</td><td>Feb 2026</td><td>FY25 update coverage</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details style="margin-top:20px">
+      <summary>Figures Still Requiring Manual Confirmation</summary>
+      <div class="det-body">
+        <p>These items could not be fully verified from public web sources and require the FY2024 Annual Report PDF:</p>
+        <p>1. Gross borrowings breakdown (bank debt vs lease liabilities)<br>
+        2. Pension surplus exact figure and scheme details<br>
+        3. Intangible assets carrying value (for tangible book calc)<br>
+        4. PP&amp;E net book value<br>
+        5. Exact covenant terms (leverage/interest cover thresholds)<br>
+        6. Nambé acquisition price ($12m claimed)<br>
+        7. Historical average P/B of 0.66x<br>
+        8. FY2025 full results (expected Mar 2026)</p>
+      </div>
+    </details>
+  </div>
+
+</div><!-- end main-wrap -->
+
+<footer>
+  <p>Portmeirion Group PLC (LSE: PMP) — Independent Forensic Analysis · 30 March 2026</p>
+  <p>For informational purposes only. Not investment advice. All investments carry risk. The author may or may not hold a position.</p>
+</footer>
+</div>
+
+<script>
+// Password
+(function() {
+  var correct = "belowbook";
+  var pw = document.getElementById("pw");
+  var go = document.getElementById("go");
+  var err = document.getElementById("err");
+
+  function tryPass() {
+    var val = pw.value.toLowerCase().trim();
+    if (val === correct) {
+      document.getElementById("gate").style.display = "none";
+      document.getElementById("site").style.display = "block";
+    } else if (val === "") {
+      err.textContent = "";
+    } else if (val === "password" || val === "1234") {
+      err.textContent = "David. You once sued Mississippi. You can do better than this.";
+      pw.classList.add("shake");
+      setTimeout(function() { pw.classList.remove("shake"); }, 500);
+    } else if (val === "value" || val === "nav" || val === "discount" || val === "nominal") {
+      err.textContent = "Getting warmer. Think about what gets you excited.";
+      pw.classList.add("shake");
+      setTimeout(function() { pw.classList.remove("shake"); }, 500);
+    } else {
+      err.textContent = "Wrong. And you call yourself a value investor.";
+      pw.classList.add("shake");
+      setTimeout(function() { pw.classList.remove("shake"); }, 500);
+    }
+  }
+
+  go.addEventListener("click", tryPass);
+  pw.addEventListener("keydown", function(e) { if (e.key === "Enter") tryPass(); });
+})();
+
+// Tabs - exact same script that worked before
+document.querySelectorAll('.tab-bar button').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-bar button').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    window.scrollTo({ top: document.querySelector('.tab-bar').offsetTop - 60, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
